@@ -1,0 +1,17 @@
+version: 0.2
+phases:
+  build:
+    commands:
+      - chmod +x ./gradlew
+      - ./gradlew clean build -x test
+  post_build:
+    commands:
+      - mv ./build/libs/*.jar ./app.jar
+artifacts:
+  files:
+    - app.jar
+    - scripts/**/*
+    - appspec.yml
+cache:
+  paths:
+    - /root/.gradle/caches/**/*

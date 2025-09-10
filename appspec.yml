@@ -1,0 +1,22 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /opt/deploy/staging
+hooks:
+  BeforeInstall:
+    - location: scripts/prepare.sh
+      timeout: 180
+      runas: ec2-user
+  AfterInstall:
+    - location: scripts/deploy_to_inactive.sh
+      timeout: 300
+      runas: ec2-user
+  ApplicationStart:
+    - location: scripts/health_check_and_switch.sh
+      timeout: 300
+      runas: ec2-user
+  ApplicationStop:
+    - location: scripts/cleanup_old.sh
+      timeout: 120
+      runas: ec2-user
